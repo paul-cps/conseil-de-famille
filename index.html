@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conseil de Famille Online — République Familiale Camps</title>
+<meta name="description" content="Le Parlement de la famille Camps : propositions de loi, scrutins publics et Code de la Famille.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+<style>
+/* =========================================================
+   CONFIGURATION VISUELLE
+   ========================================================= */
+:root{
+  --bleu:#0b1f4b; --bleu2:#1a3a7a; --bleu-clair:#e8edf7;
+  --rouge:#b3202f; --rouge-velours:#8e1b28;
+  --or:#b8963e; --or-clair:#efe3c2;
+  --papier:#f7f3ea; --papier2:#fffdf8;
+  --encre:#1b1b1f; --gris:#6b6b74; --filet:#d9d0bb;
+  --pour:#2e7d4f; --contre:#c0392b; --abst:#c9a227;
+  --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sans:'Source Sans 3', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ombre:0 1px 2px rgba(11,31,75,.06), 0 8px 24px rgba(11,31,75,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--encre);background:var(--papier);
+  background-image:radial-gradient(circle at 1px 1px, rgba(184,150,62,.10) 1px, transparent 0);
+  background-size:22px 22px;line-height:1.5;min-height:100vh}
+button{font-family:inherit;cursor:pointer}
+.tricolore{height:6px;background:linear-gradient(90deg,var(--bleu) 0 33.33%,#fff 33.33% 66.66%,var(--rouge) 66.66%)}
+.wrap{max-width:980px;margin:0 auto;padding:0 18px}
+
+/* ---------- En-tête ---------- */
+header{background:var(--bleu);color:#fff;position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 2px,transparent 2px 90px);pointer-events:none}
+.entete{display:flex;align-items:center;gap:20px;padding:26px 0 22px;position:relative;z-index:1}
+.sceau{width:92px;height:92px;flex:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+.titres h1{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,44px);line-height:1.05;letter-spacing:.5px}
+.titres .rep{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--or-clair);font-weight:600}
+.titres .devise{font-family:var(--serif);font-style:italic;font-size:18px;color:#cdd6ea;margin-top:4px}
+.son{margin-left:auto;align-self:flex-start;background:transparent;border:1px solid rgba(255,255,255,.25);
+  color:#fff;border-radius:20px;padding:4px 10px;font-size:14px}
+
+/* ---------- Bandeau siège + compte à rebours ---------- */
+.bandeau{background:var(--bleu2);color:#fff;border-top:1px solid rgba(255,255,255,.12)}
+.bandeau .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;padding-top:10px;padding-bottom:10px}
+.siege{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);
+  color:#fff;border-radius:40px;padding:4px 14px 4px 4px;font-size:15px}
+.siege img{width:34px;height:34px;border-radius:50%;object-fit:cover;background:var(--papier);border:2px solid var(--or)}
+.siege small{display:block;font-size:11px;opacity:.75;line-height:1}
+.chrono{text-align:right;font-size:14px}
+.chrono .lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--or-clair)}
+.chrono .val{font-family:var(--serif);font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.chrono.live .val{color:#ffd76a;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.55}}
+.demo{background:var(--or-clair);color:#5a4614;font-size:13px;text-align:center;padding:6px 12px;border-bottom:1px solid var(--filet)}
+
+/* ---------- Navigation ---------- */
+nav{background:var(--papier2);border-bottom:1px solid var(--filet);position:sticky;top:0;z-index:20}
+nav .wrap{display:flex;gap:4px;overflow-x:auto}
+nav button{background:none;border:none;padding:14px 16px;font-family:var(--serif);font-size:19px;font-weight:600;color:var(--gris);
+  border-bottom:3px solid transparent;white-space:nowrap}
+nav button.actif{color:var(--bleu);border-bottom-color:var(--rouge)}
+nav .badge{display:inline-block;min-width:20px;padding:0 6px;border-radius:10px;background:var(--rouge);color:#fff;
+  font-family:var(--sans);font-size:12px;margin-left:6px;vertical-align:middle}
+
+main{padding:28px 0 60px}
+.vue{display:none}.vue.active{display:block}
+h2.section{font-family:var(--serif);font-size:30px;color:var(--bleu);display:flex;align-items:center;gap:14px;margin:30px 0 16px}
+h2.section::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--or),transparent)}
+.chapeau{color:var(--gris);margin:-8px 0 18px;font-size:15px}
+
+/* ---------- Hémicycle ---------- */
+.hemi{background:var(--papier2);border:1px solid var(--filet);border-radius:6px;box-shadow:var(--ombre);padding:18px 14px 10px;position:relative}
+.hemi svg{width:100%;height:auto;display:block}
+.hemi .focus{text-align:center;font-family:var(--serif);font-size:20px;color:var(--bleu);padding:4px 10px 6px;min-height:34px}
+.hemi .focus small{display:block;font-family:var(--sans);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gris)}
+.legende{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:13px;color:var(--gris);padding:6px 0 4px}
+.legende i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.siege-svg{cursor:pointer;transition:transform .2s}
+.jokers{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-top:14px;font-size:14px}
+.jokers .j{display:flex;align-items:center;gap:6px;padding:4px 10px 4px 4px;border-radius:30px;border:1px solid var(--filet);background:var(--papier2)}
+.jokers img{width:26px;height:26px;border-radius:50%;object-fit:cover;background:var(--papier)}
+.jokers .use{opacity:.45;text-decoration:line-through}
+
+/* ---------- Boutons ---------- */
+.btn{border:none;border-radius:4px;padding:11px 18px;font-weight:700;font-size:15px;letter-spacing:.3px;transition:transform .1s,filter .15s}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-bleu{background:var(--bleu);color:#fff}.btn-bleu:hover{filter:brightness(1.2)}
+.btn-or{background:var(--or);color:#fff}
+.btn-ligne{background:transparent;border:1.5px solid var(--bleu);color:var(--bleu)}
+.btn-rouge{background:var(--rouge);color:#fff}
+.deposer{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin:26px 0 6px}
+
+/* ---------- Carte proposition ---------- */
+.carte{background:var(--papier2);border:1px solid var(--filet);border-radius:6px;box-shadow:var(--ombre);margin-bottom:22px;overflow:hidden}
+.carte-tete{padding:18px 22px 0;border-top:4px solid var(--bleu)}
+.num{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--rouge);font-weight:700}
+.carte h3{font-family:var(--serif);font-size:27px;line-height:1.15;color:var(--bleu);margin:4px 0 10px}
+.auteur{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--gris)}
+.auteur img{width:30px;height:30px;border-radius:50%;object-fit:cover;background:var(--papier);border:1.5px solid var(--or)}
+.auteur b{color:var(--encre)}
+.motifs{margin:14px 0 0;padding:12px 16px;background:var(--papier);border-left:3px solid var(--or);font-size:15.5px;white-space:pre-wrap}
+.motifs::before{content:"Exposé des motifs";display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--or);font-weight:700;margin-bottom:4px}
+.scrutin{padding:18px 22px;border-top:1px dashed var(--filet);margin-top:18px}
+.scrutin .lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gris);font-weight:700;margin-bottom:10px}
+.choix{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.vote{background:#fff;border:2px solid var(--filet);border-radius:5px;padding:10px 6px;font-weight:700;font-size:15px;color:var(--encre);line-height:1.15}
+.vote small{display:block;font-weight:400;font-size:12px;color:var(--gris)}
+.vote.pour:hover,.vote.pour.sel{border-color:var(--pour);background:#e9f5ee;color:var(--pour)}
+.vote.contre:hover,.vote.contre.sel{border-color:var(--contre);background:#fbeceb;color:var(--contre)}
+.vote.abst:hover,.vote.abst.sel{border-color:var(--abst);background:#fbf5e1;color:#8a6d10}
+.tableau{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;align-items:center}
+.tableau .m{display:flex;align-items:center;gap:7px;font-size:14px}
+.tableau .m img{width:36px;height:36px;border-radius:50%;object-fit:cover;background:var(--papier);border:3px solid #ccc}
+.tableau .m span small{display:block;font-size:11.5px;font-weight:700;letter-spacing:.5px}
+.decompte{margin-left:auto;font-family:var(--serif);font-size:18px;color:var(--bleu);font-weight:700}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.actions .btn{font-size:14px;padding:9px 14px}
+
+/* ---------- Commentaires ---------- */
+.debats{background:var(--papier);border-top:1px solid var(--filet);padding:12px 22px}
+.debats summary{cursor:pointer;font-weight:700;color:var(--bleu);font-size:14px;list-style:none}
+.debats summary::-webkit-details-marker{display:none}
+.debats summary::before{content:"▸ ";color:var(--or)}
+.debats[open] summary::before{content:"▾ "}
+.com{display:flex;gap:10px;margin-top:12px}
+.com img{width:32px;height:32px;border-radius:50%;object-fit:cover;background:var(--papier2);flex:none;border:1.5px solid var(--filet)}
+.com .bulle{background:var(--papier2);border:1px solid var(--filet);border-radius:4px 12px 12px 12px;padding:7px 12px;font-size:15px;flex:1}
+.com .bulle b{font-size:13px;color:var(--bleu)}
+.com .bulle time{font-size:12px;color:var(--gris);margin-left:6px}
+.com .bulle p{white-space:pre-wrap}
+.ecrire{display:flex;gap:8px;margin-top:12px}
+.ecrire textarea{flex:1;resize:vertical;min-height:42px;border:1px solid var(--filet);border-radius:4px;padding:9px 11px;font-family:inherit;font-size:15px;background:#fff}
+
+/* ---------- Code de la Famille ---------- */
+.code{background:var(--papier2);border:1px solid var(--filet);box-shadow:var(--ombre);padding:36px clamp(18px,5vw,56px);position:relative}
+.code::before{content:"";position:absolute;inset:8px;border:1px solid var(--or-clair);pointer-events:none}
+.code-titre{text-align:center;margin-bottom:26px}
+.code-titre .rep{font-size:12px;letter-spacing:4px;color:var(--gris);text-transform:uppercase}
+.code-titre h2{font-family:var(--serif);font-size:clamp(30px,5vw,42px);color:var(--bleu);letter-spacing:1px}
+.code-titre .filet{width:120px;height:3px;margin:10px auto 0;background:linear-gradient(90deg,var(--bleu) 0 33%,#ddd 33% 66%,var(--rouge) 66%)}
+.article{padding:18px 0;border-bottom:1px solid var(--filet)}
+.article:last-child{border-bottom:none}
+.article h4{font-family:var(--serif);font-size:21px;color:var(--rouge);font-weight:700}
+.article p.texte{font-family:var(--serif);font-size:22px;line-height:1.35;margin:2px 0 6px}
+.article .meta{font-size:13px;color:var(--gris);font-style:italic}
+.article .tag493{display:inline-block;background:var(--rouge);color:#fff;font-style:normal;font-weight:700;font-size:11px;padding:1px 7px;border-radius:3px;margin-left:6px;letter-spacing:.5px}
+.vide{text-align:center;color:var(--gris);font-family:var(--serif);font-size:20px;font-style:italic;padding:30px 10px}
+
+/* ---------- Archives ---------- */
+.archive{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--papier2);border:1px solid var(--filet);border-left:4px solid var(--gris);padding:14px 18px;margin-bottom:10px;border-radius:4px}
+.archive.rej{border-left-color:var(--contre)}.archive.ajo{border-left-color:var(--abst)}
+.archive .t{flex:1;min-width:200px}
+.archive .t b{font-family:var(--serif);font-size:20px;color:var(--bleu)}
+.archive .t small{display:block;color:var(--gris);font-size:13px}
+.statut{font-size:11px;font-weight:700;letter-spacing:1.5px;padding:3px 9px;border-radius:3px;color:#fff}
+.statut.rej{background:var(--contre)}.statut.ajo{background:var(--abst)}
+
+/* ---------- Modales ---------- */
+.modale{position:fixed;inset:0;background:rgba(11,31,75,.6);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modale.ouverte{display:flex}
+.boite{background:var(--papier2);border-radius:6px;max-width:560px;width:100%;max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.35);border-top:6px solid var(--bleu)}
+.boite .tete{padding:20px 24px 6px}
+.boite .tete h3{font-family:var(--serif);font-size:28px;color:var(--bleu)}
+.boite .tete p{color:var(--gris);font-size:14px}
+.boite form,.boite .corps{padding:10px 24px 24px}
+label.champ{display:block;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:var(--bleu);margin:14px 0 6px}
+.boite input,.boite select,.boite textarea{width:100%;border:1px solid var(--filet);border-radius:4px;padding:11px 12px;font-family:inherit;font-size:16px;background:#fff}
+.boite textarea{min-height:110px;resize:vertical}
+.pied{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.qui{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.qui button{background:#fff;border:2px solid var(--filet);border-radius:8px;padding:14px 8px;font-family:var(--serif);font-size:21px;font-weight:700;color:var(--bleu)}
+.qui button:hover,.qui button.sel{border-color:var(--bleu);background:var(--bleu-clair)}
+.qui img{width:86px;height:86px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 8px;background:var(--papier);border:3px solid var(--or)}
+
+/* ---------- Toast / chargement ---------- */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--bleu);color:#fff;padding:12px 20px;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.3);z-index:70;transition:transform .3s;font-size:15px;max-width:92vw;text-align:center}
+.toast.vu{transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--rouge)}
+.charge{position:fixed;top:10px;right:10px;background:var(--papier2);border:1px solid var(--filet);border-radius:20px;padding:5px 12px;font-size:13px;color:var(--bleu);z-index:60;display:none;box-shadow:var(--ombre)}
+.charge.vu{display:block}
+
+/* ---------- Promulgation ---------- */
+#promu{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;background:rgba(5,12,30,.82);padding:16px}
+#promu.ouverte{display:flex}
+#confettis{position:fixed;inset:0;pointer-events:none;z-index:101}
+.parchemin{position:relative;background:var(--papier2);max-width:520px;width:100%;padding:34px 30px 30px;text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,.5);border:1px solid var(--or);animation:apparait .5s ease-out}
+.parchemin::before{content:"";position:absolute;inset:7px;border:1px solid var(--or-clair);pointer-events:none}
+@keyframes apparait{from{transform:translateY(30px) scale(.96);opacity:0}}
+.parchemin .rep{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gris)}
+.parchemin .num{margin-top:14px}
+.parchemin h3{font-family:var(--serif);font-size:30px;color:var(--bleu);line-height:1.15;margin:6px 0 10px}
+.parchemin .sous{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--gris);min-height:26px}
+.parchemin .score{margin-top:10px;font-weight:700;color:var(--bleu)}
+.tampon{position:absolute;left:50%;top:50%;font-family:var(--serif);font-weight:700;font-size:58px;letter-spacing:4px;
+  padding:4px 22px;border:6px double currentColor;border-radius:8px;transform:translate(-50%,-50%) rotate(-14deg) scale(3);opacity:0;
+  mix-blend-mode:multiply;white-space:nowrap;pointer-events:none}
+.tampon.frappe{animation:frappe .35s cubic-bezier(.2,1.6,.4,1) forwards}
+@keyframes frappe{to{transform:translate(-50%,-50%) rotate(-14deg) scale(1);opacity:.88}}
+.tampon.adoptee{color:var(--pour)}.tampon.rejetee{color:var(--contre)}.tampon.ajournee{color:#a8841a;font-size:48px}
+.tampon493{position:absolute;right:16px;top:14px;background:var(--rouge);color:#fff;font-weight:700;font-size:20px;padding:4px 10px;transform:rotate(8deg);opacity:0;border-radius:3px}
+.tampon493.frappe{animation:frappe493 .3s .5s forwards}
+@keyframes frappe493{from{transform:rotate(8deg) scale(2.5)}to{opacity:1;transform:rotate(8deg) scale(1)}}
+.parchemin .fermer{margin-top:26px}
+.secoue{animation:secoue .35s}
+@keyframes secoue{20%{transform:translate(-4px,2px)}40%{transform:translate(4px,-2px)}60%{transform:translate(-3px,1px)}80%{transform:translate(2px,-1px)}}
+
+footer{text-align:center;color:var(--gris);font-size:13px;padding:20px 0 40px;font-family:var(--serif);font-style:italic}
+
+@media (max-width:600px){
+  .entete{gap:14px;padding:18px 0 16px}.sceau{width:66px;height:66px}
+  .titres .devise{font-size:15px}.titres .rep{font-size:10px;letter-spacing:2.5px}
+  .chrono{text-align:left}
+  .carte-tete,.scrutin,.debats{padding-left:16px;padding-right:16px}
+  .carte h3{font-size:23px}.decompte{margin-left:0;width:100%}
+  .tampon{font-size:42px}.tampon.ajournee{font-size:34px}
+}
+</style>
+</head>
+<body>
+
+<div class="tricolore"></div>
+<header>
+  <div class="wrap entete">
+    <svg class="sceau" viewBox="0 0 200 200" aria-hidden="true">
+      <defs><path id="cercleTxt" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
+      <circle cx="100" cy="100" r="97" fill="#b8963e"/>
+      <circle cx="100" cy="100" r="91" fill="#0b1f4b"/>
+      <text font-family="Source Sans 3, sans-serif" font-size="15" font-weight="700" letter-spacing="3.2" fill="#efe3c2">
+        <textPath href="#cercleTxt" startOffset="0">RÉPUBLIQUE FAMILIALE CAMPS ★ CONSEIL ★</textPath></text>
+      <circle cx="100" cy="100" r="60" fill="#f7f3ea" stroke="#b8963e" stroke-width="3"/>
+      <clipPath id="disque"><circle cx="100" cy="100" r="58"/></clipPath>
+      <g clip-path="url(#disque)">
+        <rect x="40" y="128" width="40" height="40" fill="#0b1f4b"/><rect x="80" y="128" width="40" height="40" fill="#fff"/><rect x="120" y="128" width="40" height="40" fill="#b3202f"/>
+      </g>
+      <!-- Maison-hémicycle stylisée -->
+      <path d="M62 92 L100 62 L138 92 Z" fill="#0b1f4b"/>
+      <rect x="68" y="92" width="64" height="6" fill="#0b1f4b"/>
+      <g fill="#0b1f4b"><rect x="72" y="100" width="7" height="26"/><rect x="87" y="100" width="7" height="26"/><rect x="106" y="100" width="7" height="26"/><rect x="121" y="100" width="7" height="26"/></g>
+      <rect x="64" y="126" width="72" height="5" fill="#b8963e"/>
+      <text x="100" y="88" text-anchor="middle" font-family="Cormorant Garamond, serif" font-weight="700" font-size="17" fill="#efe3c2">C</text>
+    </svg>
+    <div class="titres">
+      <div class="rep">République Familiale Camps</div>
+      <h1>Conseil de Famille Online</h1>
+      <div class="devise">Liberté · Égalité · Télécommande</div>
+    </div>
+    <button class="son" id="btnSon" title="Activer / couper le son">🔊</button>
+  </div>
+  <div class="bandeau">
+    <div class="wrap">
+      <button class="siege" id="btnSiege"><img id="siegeImg" alt=""><span><small>Vous siégez en tant que</small><b id="siegeNom">—</b></span></button>
+      <div class="chrono" id="chrono"><div class="lbl" id="chronoLbl">Prochaine séance</div><div class="val" id="chronoVal">…</div></div>
+    </div>
+  </div>
+</header>
+<div class="demo" id="bandeauDemo" hidden>🧪 <b>Mode démonstration</b> — les données restent sur cet appareil. Renseigne <code>API_URL</code> dans le fichier pour brancher le Google Sheet.</div>
+
+<nav><div class="wrap">
+  <button data-vue="hemicycle" class="actif">Hémicycle <span class="badge" id="badgeEnCours" hidden></span></button>
+  <button data-vue="code">Code de la Famille</button>
+  <button data-vue="archives">Archives</button>
+</div></nav>
+
+<main class="wrap">
+  <!-- ======== HÉMICYCLE ======== -->
+  <section class="vue active" id="vue-hemicycle">
+    <div class="hemi">
+      <svg id="svgHemi" viewBox="0 0 800 440" role="img" aria-label="Hémicycle de la famille Camps"></svg>
+      <div class="focus" id="focusHemi"></div>
+      <div class="legende"><span><i style="background:var(--pour)"></i>Pour</span><span><i style="background:var(--contre)"></i>Contre</span><span><i style="background:var(--abst)"></i>Abstention</span><span><i style="background:#c9c9cf"></i>N'a pas voté</span></div>
+    </div>
+    <div class="jokers" id="jokers"></div>
+
+    <div class="deposer">
+      <h2 class="section" style="margin:0;flex:1">Textes en discussion</h2>
+      <button class="btn btn-rouge" id="btnDeposer">✒️ Déposer une proposition de loi</button>
+    </div>
+    <p class="chapeau">Chaque membre vote <b>Pour</b>, <b>Contre</b> ou <b>Abstention</b>. Le scrutin est clos en séance : majorité simple, et en cas d'égalité le texte est <i>ajourné</i>.</p>
+    <div id="listeEnCours"></div>
+  </section>
+
+  <!-- ======== CODE ======== -->
+  <section class="vue" id="vue-code">
+    <div class="code">
+      <div class="code-titre">
+        <div class="rep">République Familiale Camps</div>
+        <h2>Code de la Famille</h2>
+        <div class="filet"></div>
+      </div>
+      <div id="listeArticles"></div>
+    </div>
+  </section>
+
+  <!-- ======== ARCHIVES ======== -->
+  <section class="vue" id="vue-archives">
+    <h2 class="section">Textes rejetés et ajournés</h2>
+    <p class="chapeau">Une proposition rejetée ou ajournée peut être réinscrite à l'ordre du jour d'un prochain Conseil.</p>
+    <div id="listeArchives"></div>
+  </section>
+</main>
+<footer>« Le Conseil se réunit chaque dimanche. Nul n'est censé ignorer le Code de la Famille. »</footer>
+
+<!-- ======== Modale : qui êtes-vous ======== -->
+<div class="modale" id="modQui"><div class="boite">
+  <div class="tete"><h3>Prenez place dans l'hémicycle</h3><p>Qui siège sur cet appareil ? (modifiable à tout moment)</p></div>
+  <div class="corps"><div class="qui" id="grilleQui"></div></div>
+</div></div>
+
+<!-- ======== Modale : déposer ======== -->
+<div class="modale" id="modDepot"><div class="boite">
+  <div class="tete"><h3>Proposition de loi</h3><p>Déposée sur le bureau du Conseil de Famille.</p></div>
+  <form id="formDepot">
+    <label class="champ" for="fAuteur">Déposée par</label>
+    <select id="fAuteur" required></select>
+    <label class="champ" for="fTitre">Intitulé de la loi</label>
+    <input id="fTitre" maxlength="140" required placeholder="Ex. : Achat d'une nouvelle télévision pour le salon">
+    <label class="champ" for="fExpose">Exposé des motifs</label>
+    <textarea id="fExpose" maxlength="2000" placeholder="Pourquoi cette loi est indispensable à la Nation familiale…"></textarea>
+    <div class="pied"><button type="button" class="btn btn-ligne" data-ferme>Annuler</button><button class="btn btn-bleu" type="submit">Déposer le texte</button></div>
+  </form>
+</div></div>
+
+<!-- ======== Modale : confirmation ======== -->
+<div class="modale" id="modConfirm"><div class="boite">
+  <div class="tete"><h3 id="cTitre"></h3></div>
+  <div class="corps"><p id="cTexte" style="font-size:16px"></p>
+    <div class="pied"><button class="btn btn-ligne" id="cNon">Annuler</button><button class="btn btn-rouge" id="cOui">Confirmer</button></div></div>
+</div></div>
+
+<!-- ======== Promulgation ======== -->
+<div id="promu"><div class="parchemin" id="parchemin">
+  <div class="rep">République Familiale Camps</div>
+  <div class="num" id="pNum"></div>
+  <h3 id="pTitre"></h3>
+  <div class="sous" id="pSous"></div>
+  <div class="score" id="pScore"></div>
+  <div class="tampon" id="pTampon"></div>
+  <div class="tampon493" id="p493">49.3</div>
+  <button class="btn btn-bleu fermer" id="pFermer">Vive la République Familiale !</button>
+</div></div>
+<canvas id="confettis"></canvas>
+
+<div class="toast" id="toast"></div>
+<div class="charge" id="charge">⏳ L'huissier transmet…</div>
+
+<script>
+/* =========================================================
+   ⚙️  CONFIGURATION — à modifier
+   ========================================================= */
+// Colle ici l'URL de ton déploiement Apps Script (finit par /exec).
+// Laisse vide pour tester le site en mode démo.
+const API_URL = '';
+
+// Jour et heure du Conseil (0 = dimanche). Durée en minutes de la séance.
+const CONSEIL = { jour: 0, heure: 12, minute: 0, dureeMin: 120 };
+
+const MEMBRES = [
+  { nom: 'Jean-Yves', role: 'Le Père',   img: 'img/jean-yves.png' },
+  { nom: 'Armelle',   role: 'La Mère',   img: 'img/armelle.png' },
+  { nom: 'Paul',      role: "L'Aîné",    img: 'img/paul.png' },
+  { nom: 'Timothée',  role: 'Le Benjamin', img: 'img/timothee.png' }
+];
+const RAFRAICHIR_SEC = 30;
+
+/* =========================================================
+   Utilitaires
+   ========================================================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const membre = n => MEMBRES.find(m => m.nom === n) || { nom: n, img: '', role: '' };
+const dateFr = iso => iso ? new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+const dateCourte = iso => iso ? new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) + ' à ' + new Date(iso).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : '';
+const LS = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+const VOTE_INFO = {
+  POUR: { lbl: 'Pour', coul: 'var(--pour)' },
+  CONTRE: { lbl: 'Contre', coul: 'var(--contre)' },
+  ABSTENTION: { lbl: 'Abstention', coul: 'var(--abst)' }
+};
+
+let etat = { propositions: [], votes: [], commentaires: [] };
+let moi = LS.get('cfo_moi', null);
+let sonActif = LS.get('cfo_son', true);
+let focusId = null;
+const brouillons = {};
+const debatsOuverts = new Set();
+
+/* =========================================================
+   Couche API : Google Apps Script OU mode démo (localStorage)
+   ========================================================= */
+const api = API_URL ? {
+  async lire() {
+    const r = await fetch(API_URL + '?t=' + Date.now());
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.erreur);
+    return j.data;
+  },
+  async agir(req) {
+    // Pas d'en-tête Content-Type => requête "simple", pas de blocage CORS avec Apps Script
+    const r = await fetch(API_URL, { method: 'POST', body: JSON.stringify(req) });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.erreur);
+    return j;
+  }
+} : demoApi();
+
+function demoApi() {
+  const cle = 'cfo_demo_etat';
+  const uid = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
+  const now = () => new Date().toISOString();
+  let d = LS.get(cle, null);
+  if (!d) {
+    const p1 = uid(), p2 = uid();
+    d = {
+      propositions: [
+        { id: p2, numero: '2026-001', titre: "Le dessert du dimanche est choisi à tour de rôle par chaque membre du Conseil", expose: "Pour mettre fin à l'hégémonie de la tarte aux pommes.", auteur: 'Timothée', dateDepot: '2026-11-02T10:00:00Z', statut: 'ADOPTEE', dateCloture: '2026-11-09T12:40:00Z', article: 1, via493: '' },
+        { id: p1, numero: '2026-002', titre: "Achat d'une nouvelle télévision pour le salon", expose: "L'actuelle a connu la Coupe du monde 2010. Il est temps.", auteur: 'Paul', dateDepot: now(), statut: 'EN_COURS', dateCloture: '', article: '', via493: '' }
+      ],
+      votes: [{ propId: p1, membre: 'Paul', vote: 'POUR', date: now() }, { propId: p1, membre: 'Armelle', vote: 'ABSTENTION', date: now() }],
+      commentaires: [{ id: uid(), propId: p1, membre: 'Jean-Yves', texte: "Quelle taille ? Quel budget ? J'exige un amendement.", date: now() }]
+    };
+    LS.set(cle, d);
+  }
+  const prop = id => { const p = d.propositions.find(x => x.id === id); if (!p) throw new Error('Proposition introuvable.'); return p; };
+  const ouverte = p => { if (p.statut !== 'EN_COURS') throw new Error('Le scrutin est clos.'); };
+  const nextArticle = () => d.propositions.reduce((m, p) => Math.max(m, Number(p.article) || 0), 0) + 1;
+  const actions = {
+    deposer(r) {
+      if (!r.titre?.trim()) throw new Error("L'intitulé est obligatoire.");
+      const an = new Date().getFullYear();
+      const n = d.propositions.filter(p => String(p.numero).startsWith(an + '-')).length + 1;
+      d.propositions.push({ id: uid(), numero: an + '-' + String(n).padStart(3, '0'), titre: r.titre.trim(), expose: (r.expose || '').trim(), auteur: r.auteur, dateDepot: now(), statut: 'EN_COURS', dateCloture: '', article: '', via493: '' });
+    },
+    voter(r) {
+      ouverte(prop(r.propId));
+      const v = d.votes.find(x => x.propId === r.propId && x.membre === r.membre);
+      if (v) { v.vote = r.vote; v.date = now(); } else d.votes.push({ propId: r.propId, membre: r.membre, vote: r.vote, date: now() });
+    },
+    commenter(r) { prop(r.propId); if (!r.texte?.trim()) throw new Error('Commentaire vide.'); d.commentaires.push({ id: uid(), propId: r.propId, membre: r.membre, texte: r.texte.trim(), date: now() }); },
+    clore(r) {
+      const p = prop(r.propId); ouverte(p);
+      const vs = d.votes.filter(v => v.propId === p.id);
+      const pour = vs.filter(v => v.vote === 'POUR').length, contre = vs.filter(v => v.vote === 'CONTRE').length;
+      p.statut = pour > contre ? 'ADOPTEE' : contre > pour ? 'REJETEE' : 'AJOURNEE';
+      p.dateCloture = now(); p.article = p.statut === 'ADOPTEE' ? nextArticle() : '';
+    },
+    quaranteNeufTrois(r) {
+      const p = prop(r.propId); ouverte(p);
+      const an = String(new Date().getFullYear());
+      if (d.propositions.some(x => x.via493 === r.membre && String(x.dateCloture).slice(0, 4) === an)) throw new Error(r.membre + ' a déjà utilisé son 49.3 cette année !');
+      p.statut = 'ADOPTEE'; p.dateCloture = now(); p.article = nextArticle(); p.via493 = r.membre;
+    },
+    reinscrire(r) {
+      const p = prop(r.propId);
+      d.votes = d.votes.filter(v => v.propId !== p.id);
+      Object.assign(p, { statut: 'EN_COURS', dateCloture: '', article: '', via493: '' });
+    }
+  };
+  return {
+    async lire() { return JSON.parse(JSON.stringify(d)); },
+    async agir(req) { await new Promise(r => setTimeout(r, 250)); actions[req.action](req); LS.set(cle, d); return { ok: true, data: JSON.parse(JSON.stringify(d)) }; }
+  };
+}
+
+/* =========================================================
+   Chargement & actions
+   ========================================================= */
+async function charger(silencieux) {
+  try {
+    if (!silencieux) charge(true);
+    etat = await api.lire();
+    rendu();
+    verifierPromulgations();
+  } catch (e) {
+    if (!silencieux) toast('Impossible de joindre le Conseil : ' + e.message, true);
+  } finally { charge(false); }
+}
+
+async function agir(req, msgOk) {
+  try {
+    charge(true);
+    const j = await api.agir(req);
+    etat = j.data;
+    rendu();
+    if (msgOk) toast(msgOk);
+    verifierPromulgations();
+  } catch (e) { toast(e.message, true); }
+  finally { charge(false); }
+}
+
+function exigerSiege() {
+  if (moi) return true;
+  ouvrirQui(); toast('Prenez d\'abord place dans l\'hémicycle.', true);
+  return false;
+}
+
+/* =========================================================
+   Rendu
+   ========================================================= */
+const votesDe = id => Object.fromEntries(etat.votes.filter(v => v.propId === id).map(v => [v.membre, v.vote]));
+const comsDe = id => etat.commentaires.filter(c => c.propId === id).sort((a, b) => a.date.localeCompare(b.date));
+const anneeCourante = String(new Date().getFullYear());
+const jokerUtilise = n => etat.propositions.some(p => p.via493 === n && String(p.dateCloture).slice(0, 4) === anneeCourante);
+
+function rendu() {
+  rendreSiege();
+  const enCours = etat.propositions.filter(p => p.statut === 'EN_COURS').sort((a, b) => b.dateDepot.localeCompare(a.dateDepot));
+  if (!enCours.find(p => p.id === focusId)) focusId = enCours[0]?.id || null;
+  rendreHemicycle();
+  rendreJokers();
+  const badge = $('#badgeEnCours');
+  badge.hidden = !enCours.length; badge.textContent = enCours.length;
+
+  $('#listeEnCours').innerHTML = enCours.length ? enCours.map(carte).join('') :
+    '<div class="vide">L\'ordre du jour est vide. Le Conseil attend vos propositions.</div>';
+
+  const adoptees = etat.propositions.filter(p => p.statut === 'ADOPTEE').sort((a, b) => Number(a.article) - Number(b.article));
+  $('#listeArticles').innerHTML = adoptees.length ? adoptees.map(p => `
+    <div class="article">
+      <h4>${Number(p.article) === 1 ? 'Article 1<sup>er</sup>' : 'Article ' + esc(p.article)}</h4>
+      <p class="texte">${esc(p.titre)}</p>
+      <div class="meta">Loi n° ${esc(p.numero)} du ${dateFr(p.dateCloture)}, sur proposition de ${esc(p.auteur)}.
+        ${p.via493 ? `<span class="tag493">49.3</span> engagé par ${esc(p.via493)}` : ''}</div>
+    </div>`).join('') : '<div class="vide">Aucune loi n\'a encore été promulguée.<br>La famille vit dans l\'anarchie la plus totale.</div>';
+
+  const archives = etat.propositions.filter(p => p.statut === 'REJETEE' || p.statut === 'AJOURNEE').sort((a, b) => b.dateCloture.localeCompare(a.dateCloture));
+  $('#listeArchives').innerHTML = archives.length ? archives.map(p => {
+    const rej = p.statut === 'REJETEE';
+    return `<div class="archive ${rej ? 'rej' : 'ajo'}">
+      <span class="statut ${rej ? 'rej' : 'ajo'}">${rej ? 'REJETÉE' : 'AJOURNÉE'}</span>
+      <div class="t"><b>${esc(p.titre)}</b><small>n° ${esc(p.numero)} · déposée par ${esc(p.auteur)} · close le ${dateFr(p.dateCloture)}</small></div>
+      <button class="btn btn-ligne" data-act="reinscrire" data-id="${p.id}">↺ Réinscrire à l'ordre du jour</button>
+    </div>`;
+  }).join('') : '<div class="vide">Aucun texte rejeté. Pour l\'instant.</div>';
+}
+
+function carte(p) {
+  const v = votesDe(p.id), coms = comsDe(p.id), a = membre(p.auteur);
+  const nb = k => Object.values(v).filter(x => x === k).length;
+  const monVote = moi ? v[moi] : null;
+  const btn = (k, cls, sous) => `<button class="vote ${cls} ${monVote === k ? 'sel' : ''}" data-act="voter" data-vote="${k}" data-id="${p.id}">${VOTE_INFO[k].lbl}<small>${sous}</small></button>`;
+  const joker = moi && !jokerUtilise(moi);
+  return `<article class="carte" id="c-${p.id}">
+    <div class="carte-tete">
+      <div class="num">Proposition de loi n° ${esc(p.numero)}</div>
+      <h3>${esc(p.titre)}</h3>
+      <div class="auteur"><img src="${a.img}" alt=""><span>Déposée par <b>${esc(p.auteur)}</b> le ${dateFr(p.dateDepot)}</span></div>
+      ${p.expose ? `<div class="motifs">${esc(p.expose)}</div>` : ''}
+    </div>
+    <div class="scrutin">
+      <div class="lbl">Scrutin public${moi ? ' — votre bulletin, ' + esc(moi) : ''}</div>
+      <div class="choix">${btn('POUR', 'pour', 'Oui')}${btn('CONTRE', 'contre', 'Non')}${btn('ABSTENTION', 'abst', 'Pourquoi pas')}</div>
+      <div class="tableau">
+        ${MEMBRES.map(m => { const x = v[m.nom]; return `<div class="m"><img src="${m.img}" alt="" style="border-color:${x ? VOTE_INFO[x].coul : '#d0d0d6'}"><span>${esc(m.nom)}<small style="color:${x ? VOTE_INFO[x].coul : 'var(--gris)'}">${x ? VOTE_INFO[x].lbl.toUpperCase() : 'EN ATTENTE'}</small></span></div>`; }).join('')}
+        <div class="decompte">${nb('POUR')} pour · ${nb('CONTRE')} contre · ${nb('ABSTENTION')} abst.</div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-bleu" data-act="clore" data-id="${p.id}">🔨 Clore le scrutin</button>
+        <button class="btn btn-rouge" data-act="493" data-id="${p.id}" ${joker ? '' : 'disabled'} title="${moi ? (joker ? 'Un seul joker par an !' : 'Joker déjà utilisé cette année') : 'Choisissez votre siège'}">⚡ Engager le 49.3</button>
+        <button class="btn btn-ligne" data-act="focus" data-id="${p.id}">🏛️ Afficher dans l'hémicycle</button>
+      </div>
+    </div>
+    <details class="debats" data-id="${p.id}" ${debatsOuverts.has(p.id) ? 'open' : ''}>
+      <summary>Débats en séance (${coms.length})</summary>
+      ${coms.map(c => { const m = membre(c.membre); return `<div class="com"><img src="${m.img}" alt=""><div class="bulle"><b>${esc(c.membre)}</b><time>${dateCourte(c.date)}</time><p>${esc(c.texte)}</p></div></div>`; }).join('')}
+      <div class="ecrire"><textarea data-brouillon="${p.id}" placeholder="Prendre la parole…" maxlength="1000">${esc(brouillons[p.id] || '')}</textarea>
+        <button class="btn btn-bleu" data-act="commenter" data-id="${p.id}">Intervenir</button></div>
+    </details>
+  </article>`;
+}
+
+function rendreSiege() {
+  const m = moi ? membre(moi) : null;
+  $('#siegeImg').src = m ? m.img : 'data:image/gif;base64,R0lGODlhAQABAAAAACw=';
+  $('#siegeNom').textContent = m ? m.nom : 'Choisir mon siège';
+}
+
+function rendreJokers() {
+  $('#jokers').innerHTML = `<b style="color:var(--bleu)">Jokers 49.3 · ${anneeCourante}</b>` + MEMBRES.map(m => {
+    const u = jokerUtilise(m.nom);
+    return `<span class="j"><img src="${m.img}" alt=""><span class="${u ? 'use' : ''}">${esc(m.nom)}</span>${u ? '❌' : '⚡'}</span>`;
+  }).join('');
+}
+
+function rendreHemicycle() {
+  const cx = 400, cy = 418;
+  const p = etat.propositions.find(x => x.id === focusId);
+  const v = p ? votesDe(p.id) : {};
+  let s = `<defs>
+    <radialGradient id="velours" cx="35%" cy="30%"><stop offset="0" stop-color="#c2384a"/><stop offset="1" stop-color="#7a1622"/></radialGradient>
+    <radialGradient id="fondSiege" cx="50%" cy="35%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e6e1d4"/></radialGradient>
+    ${MEMBRES.map((m, i) => `<clipPath id="cp${i}"><circle r="52"/></clipPath>`).join('')}
+  </defs>`;
+  // Positions des sièges de la famille (calculées d'abord pour dégager les bancs autour)
+  const angles = [152, 110, 70, 28];
+  const pos = angles.map(d => { const a = d * Math.PI / 180; return { x: cx + 185 * Math.cos(a), y: cy - 40 - 185 * Math.sin(a) }; });
+  const libre = (x, y) => pos.every(q => Math.hypot(q.x - x, q.y - y) > 78);
+  // Gradins (bancs de velours)
+  for (let rang = 0; rang < 4; rang++) {
+    const R = 272 + rang * 34, n = 15 + rang * 4;
+    s += `<path d="M ${cx - R - 14} ${cy} A ${R + 14} ${R + 14} 0 0 1 ${cx + R + 14} ${cy}" fill="none" stroke="#e9e1cc" stroke-width="2"/>`;
+    for (let k = 0; k < n; k++) {
+      const ang = Math.PI - (k + .5) * Math.PI / n;
+      const dx = cx + R * Math.cos(ang), dy = cy - R * Math.sin(ang);
+      if (libre(dx, dy)) s += `<circle cx="${dx.toFixed(1)}" cy="${dy.toFixed(1)}" r="10" fill="url(#velours)" opacity=".9"/>`;
+    }
+  }
+  // Perchoir
+  s += `<g transform="translate(${cx},${cy - 8})">
+    <rect x="-70" y="-34" width="140" height="42" rx="3" fill="#0b1f4b"/>
+    <rect x="-70" y="-34" width="140" height="5" fill="#b8963e"/>
+    <rect x="-18" y="-26" width="12" height="18" fill="#0b1f4b" stroke="#fff" stroke-width=".5"/><rect x="-6" y="-26" width="12" height="18" fill="#fff"/><rect x="6" y="-26" width="12" height="18" fill="#b3202f"/>
+    <text y="4" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="11" letter-spacing="3" font-weight="700" fill="#efe3c2">PERCHOIR</text></g>`;
+  // Sièges de la famille
+  MEMBRES.forEach((m, i) => {
+    const { x, y } = pos[i];
+    const vote = v[m.nom];
+    const coul = vote ? { POUR: '#2e7d4f', CONTRE: '#c0392b', ABSTENTION: '#c9a227' }[vote] : '#c9c9cf';
+    const moiCls = moi === m.nom;
+    s += `<g class="siege-svg" data-siege="${esc(m.nom)}" transform="translate(${x.toFixed(1)},${y.toFixed(1)})">
+      <circle r="62" fill="${coul}" ${vote ? '' : 'stroke-dasharray="6 5" fill-opacity=".25" stroke="#9a9aa3" stroke-width="2"'}/>
+      <circle r="54" fill="url(#fondSiege)"/>
+      <image href="${m.img}" x="-52" y="-52" width="104" height="104" clip-path="url(#cp${i})" preserveAspectRatio="xMidYMid slice"/>
+      ${moiCls ? '<circle r="62" fill="none" stroke="#b8963e" stroke-width="3" stroke-dasharray="2 4"/>' : ''}
+      <rect x="-52" y="64" width="104" height="22" rx="11" fill="#0b1f4b"/>
+      <text y="80" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="13.5" font-weight="700" fill="#fff">${esc(m.nom)}</text>
+      ${vote ? `<text y="102" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="11.5" font-weight="700" letter-spacing="1.5" fill="${coul}">${VOTE_INFO[vote].lbl.toUpperCase()}</text>` : ''}
+    </g>`;
+  });
+  $('#svgHemi').innerHTML = s;
+  $('#focusHemi').innerHTML = p ? `<small>Texte à l'ordre du jour · n° ${esc(p.numero)}</small>${esc(p.titre)}` : '<small>Hémicycle</small>Aucun texte en discussion';
+}
+
+/* =========================================================
+   Promulgation (tampon + fanfare + confettis)
+   ========================================================= */
+function verifierPromulgations() {
+  const cles = etat.propositions.filter(p => p.statut !== 'EN_COURS').map(p => p.id + '|' + p.statut + '|' + p.dateCloture);
+  let vus = LS.get('cfo_vus', null);
+  if (vus === null) { LS.set('cfo_vus', cles); return; } // première visite : on n'inonde pas d'animations
+  const nouvelles = etat.propositions.filter(p => p.statut !== 'EN_COURS' && !vus.includes(p.id + '|' + p.statut + '|' + p.dateCloture))
+    .sort((a, b) => a.dateCloture.localeCompare(b.dateCloture));
+  LS.set('cfo_vus', cles);
+  if (nouvelles.length) promulguer(nouvelles[nouvelles.length - 1]);
+}
+
+function promulguer(p) {
+  const v = Object.values(votesDe(p.id));
+  const pour = v.filter(x => x === 'POUR').length, contre = v.filter(x => x === 'CONTRE').length, abst = v.filter(x => x === 'ABSTENTION').length;
+  const T = { ADOPTEE: ['ADOPTÉE', 'adoptee'], REJETEE: ['REJETÉE', 'rejetee'], AJOURNEE: ['AJOURNÉE', 'ajournee'] }[p.statut];
+  $('#pNum').textContent = (p.statut === 'ADOPTEE' ? 'Loi' : 'Proposition de loi') + ' n° ' + p.numero;
+  $('#pTitre').textContent = p.titre;
+  $('#pSous').textContent = p.via493 ? `Adoptée sans vote : ${p.via493} a engagé sa responsabilité.`
+    : p.statut === 'ADOPTEE' ? `Devient l'article ${p.article} du Code de la Famille.`
+    : p.statut === 'REJETEE' ? 'Le Conseil a dit non. Le peuple familial a parlé.'
+    : 'Égalité parfaite. Le texte est renvoyé à un prochain Conseil.';
+  $('#pScore').textContent = p.via493 ? '' : `${pour} pour · ${contre} contre · ${abst} abstention${abst > 1 ? 's' : ''}`;
+  const t = $('#pTampon'); t.className = 'tampon ' + T[1]; t.textContent = T[0];
+  const t493 = $('#p493'); t493.className = 'tampon493'; t493.style.display = p.via493 ? 'block' : 'none';
+  $('#promu').classList.add('ouverte');
+  roulement();
+  setTimeout(() => {
+    t.classList.add('frappe'); if (p.via493) t493.classList.add('frappe');
+    const parch = $('#parchemin'); parch.classList.remove('secoue'); void parch.offsetWidth; parch.classList.add('secoue');
+    coup();
+    if (p.statut === 'ADOPTEE') { setTimeout(fanfare, 250); confettis(); }
+    else if (p.statut === 'REJETEE') setTimeout(trombone, 250);
+  }, 1100);
+}
+$('#pFermer').onclick = () => $('#promu').classList.remove('ouverte');
+
+/* ---------- Sons (synthétisés, aucun fichier) ---------- */
+let actx;
+function ctx() { if (!sonActif) return null; try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); return actx; } catch { return null; } }
+function note(f, t0, dur, type = 'sawtooth', vol = .12, fin) {
+  const c = ctx(); if (!c) return;
+  const o = c.createOscillator(), g = c.createGain(), flt = c.createBiquadFilter();
+  o.type = type; o.frequency.setValueAtTime(f, c.currentTime + t0);
+  if (fin) o.frequency.linearRampToValueAtTime(fin, c.currentTime + t0 + dur);
+  flt.type = 'lowpass'; flt.frequency.value = 2200;
+  g.gain.setValueAtTime(0, c.currentTime + t0); g.gain.linearRampToValueAtTime(vol, c.currentTime + t0 + .03);
+  g.gain.setValueAtTime(vol, c.currentTime + t0 + dur * .7); g.gain.linearRampToValueAtTime(0, c.currentTime + t0 + dur);
+  o.connect(flt).connect(g).connect(c.destination); o.start(c.currentTime + t0); o.stop(c.currentTime + t0 + dur + .05);
+}
+function bruit(t0, dur, vol) {
+  const c = ctx(); if (!c) return;
+  const b = c.createBuffer(1, c.sampleRate * dur, c.sampleRate), d = b.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / d.length * 4);
+  const s = c.createBufferSource(), g = c.createGain(), f = c.createBiquadFilter();
+  f.type = 'lowpass'; f.frequency.value = 900; s.buffer = b; g.gain.value = vol;
+  s.connect(f).connect(g).connect(c.destination); s.start(c.currentTime + t0);
+}
+function roulement() { for (let i = 0; i < 16; i++) bruit(i * .065, .08, .25 + i * .02); }
+function coup() { bruit(0, .35, 1.2); note(70, 0, .3, 'sine', .5, 40); }
+function fanfare() {
+  const n = [[392, 0, .16], [523, .17, .16], [659, .34, .16], [784, .51, .5], [659, .9, .14], [784, 1.06, .9]];
+  n.forEach(([f, t, d]) => { note(f, t, d, 'sawtooth', .09); note(f * 1.005, t, d, 'square', .04); });
+  [523, 659, 784].forEach(f => note(f, 1.06, .9, 'triangle', .06));
+}
+function trombone() { [[311, 0, .45], [294, .5, .45], [277, 1, .45], [262, 1.5, 1.1]].forEach(([f, t, d], i) => note(f, t, d, 'sawtooth', .11, i === 3 ? 245 : undefined)); }
+$('#btnSon').onclick = () => { sonActif = !sonActif; LS.set('cfo_son', sonActif); $('#btnSon').textContent = sonActif ? '🔊' : '🔇'; };
+$('#btnSon').textContent = sonActif ? '🔊' : '🔇';
+
+/* ---------- Confettis tricolores ---------- */
+function confettis() {
+  const cv = $('#confettis'), c = cv.getContext('2d');
+  cv.width = innerWidth; cv.height = innerHeight;
+  const cols = ['#0b1f4b', '#ffffff', '#b3202f', '#b8963e'];
+  const ps = Array.from({ length: 170 }, () => ({ x: Math.random() * cv.width, y: -20 - Math.random() * cv.height * .6, vx: (Math.random() - .5) * 3, vy: 2 + Math.random() * 3.5, r: Math.random() * 6.3, vr: (Math.random() - .5) * .3, w: 6 + Math.random() * 6, h: 9 + Math.random() * 8, col: cols[Math.floor(Math.random() * 4)] }));
+  const debut = performance.now();
+  (function anim(t) {
+    c.clearRect(0, 0, cv.width, cv.height);
+    ps.forEach(p => { p.x += p.vx; p.y += p.vy; p.r += p.vr; c.save(); c.translate(p.x, p.y); c.rotate(p.r); c.fillStyle = p.col; c.strokeStyle = 'rgba(0,0,0,.15)'; c.fillRect(-p.w / 2, -p.h / 2, p.w, p.h * Math.abs(Math.cos(p.r))); c.restore(); });
+    if (t - debut < 4500) requestAnimationFrame(anim); else c.clearRect(0, 0, cv.width, cv.height);
+  })(debut);
+}
+
+/* =========================================================
+   Compte à rebours vers le prochain Conseil
+   ========================================================= */
+function prochaineSeance(maintenant) {
+  const d = new Date(maintenant);
+  d.setHours(CONSEIL.heure, CONSEIL.minute, 0, 0);
+  d.setDate(d.getDate() + ((CONSEIL.jour - d.getDay() + 7) % 7));
+  if (d.getTime() + CONSEIL.dureeMin * 60000 <= maintenant) d.setDate(d.getDate() + 7);
+  return d;
+}
+function tic() {
+  const now = Date.now(), s = prochaineSeance(now), diff = s - now;
+  const el = $('#chrono');
+  if (diff <= 0) {
+    el.classList.add('live'); $('#chronoLbl').textContent = 'Séance en cours';
+    $('#chronoVal').textContent = '🔔 La parole est au Conseil';
+    return;
+  }
+  el.classList.remove('live');
+  const j = Math.floor(diff / 864e5), h = Math.floor(diff / 36e5) % 24, m = Math.floor(diff / 6e4) % 60, sec = Math.floor(diff / 1e3) % 60;
+  const p2 = n => String(n).padStart(2, '0');
+  $('#chronoLbl').textContent = 'Prochaine séance · ' + s.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }) + ' à ' + p2(CONSEIL.heure) + 'h' + p2(CONSEIL.minute);
+  $('#chronoVal').textContent = (j ? 'J-' + j + ' · ' : '') + `${p2(h)} h ${p2(m)} min ${p2(sec)} s`;
+}
+
+/* =========================================================
+   Modales & événements
+   ========================================================= */
+function ouvrir(id) { $(id).classList.add('ouverte'); }
+function fermer(id) { $(id).classList.remove('ouverte'); }
+document.querySelectorAll('.modale').forEach(m => m.addEventListener('click', e => {
+  if (e.target === m || e.target.hasAttribute('data-ferme')) { if (m.id !== 'modQui' || moi) fermer('#' + m.id); }
+}));
+
+function ouvrirQui() {
+  $('#grilleQui').innerHTML = MEMBRES.map(m => `<button class="${moi === m.nom ? 'sel' : ''}" data-qui="${esc(m.nom)}"><img src="${m.img}" alt="">${esc(m.nom)}<div style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--gris)">${esc(m.role)}</div></button>`).join('');
+  ouvrir('#modQui');
+}
+$('#grilleQui').addEventListener('click', e => {
+  const b = e.target.closest('[data-qui]'); if (!b) return;
+  moi = b.dataset.qui; LS.set('cfo_moi', moi); fermer('#modQui'); rendu();
+  toast(`Bienvenue dans l'hémicycle, ${moi}. La séance est ouverte.`);
+});
+$('#btnSiege').onclick = ouvrirQui;
+
+$('#btnDeposer').onclick = () => {
+  $('#fAuteur').innerHTML = MEMBRES.map(m => `<option ${m.nom === moi ? 'selected' : ''}>${esc(m.nom)}</option>`).join('');
+  $('#formDepot').reset();
+  if (moi) $('#fAuteur').value = moi;
+  ouvrir('#modDepot'); setTimeout(() => $('#fTitre').focus(), 50);
+};
+$('#formDepot').onsubmit = async e => {
+  e.preventDefault();
+  fermer('#modDepot');
+  await agir({ action: 'deposer', auteur: $('#fAuteur').value, titre: $('#fTitre').value, expose: $('#fExpose').value }, 'Texte déposé sur le bureau du Conseil. 📜');
+};
+
+function confirmer(titre, texte, libelle) {
+  return new Promise(res => {
+    $('#cTitre').textContent = titre; $('#cTexte').textContent = texte; $('#cOui').textContent = libelle || 'Confirmer';
+    ouvrir('#modConfirm');
+    $('#cOui').onclick = () => { fermer('#modConfirm'); res(true); };
+    $('#cNon').onclick = () => { fermer('#modConfirm'); res(false); };
+  });
+}
+
+document.addEventListener('click', async e => {
+  const siege = e.target.closest('[data-siege]');
+  if (siege) { ouvrirQui(); return; }
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const id = b.dataset.id, p = etat.propositions.find(x => x.id === id);
+  switch (b.dataset.act) {
+    case 'voter':
+      if (!exigerSiege()) return;
+      ctx();
+      return agir({ action: 'voter', propId: id, membre: moi, vote: b.dataset.vote }, `Bulletin « ${VOTE_INFO[b.dataset.vote].lbl} » déposé dans l'urne. 🗳️`);
+    case 'commenter': {
+      if (!exigerSiege()) return;
+      const texte = (brouillons[id] || '').trim();
+      if (!texte) return toast('Vous avez la parole… mais vous ne dites rien.', true);
+      debatsOuverts.add(id);
+      await agir({ action: 'commenter', propId: id, membre: moi, texte });
+      delete brouillons[id]; rendu();
+      return;
+    }
+    case 'clore': {
+      const nbVotes = Object.keys(votesDe(id)).length;
+      const ok = await confirmer('Clore le scrutin ?', `« ${p.titre} » — ${nbVotes}/4 membres ont voté. Le résultat sera définitif (majorité simple, égalité = ajournement).`, '🔨 Clore le scrutin');
+      if (ok) { ctx(); agir({ action: 'clore', propId: id }); }
+      return;
+    }
+    case '493': {
+      if (!exigerSiege()) return;
+      const ok = await confirmer('Engager le 49.3 ?', `En application de l'article 49 alinéa 3 de la Constitution familiale, ${moi} engage sa responsabilité sur « ${p.titre} ». Le texte sera adopté sans vote. C'est votre unique joker de ${anneeCourante} !`, '⚡ Engager le 49.3');
+      if (ok) { ctx(); agir({ action: 'quaranteNeufTrois', propId: id, membre: moi }); }
+      return;
+    }
+    case 'focus':
+      focusId = id; rendreHemicycle(); window.scrollTo({ top: $('.hemi').offsetTop - 70, behavior: 'smooth' });
+      return;
+    case 'reinscrire': {
+      const ok = await confirmer('Réinscrire ce texte ?', `« ${p.titre} » repasse à l'ordre du jour. Les votes précédents sont remis à zéro.`, '↺ Réinscrire');
+      if (ok) { await agir({ action: 'reinscrire', propId: id }, 'Texte réinscrit à l\'ordre du jour.'); montrerVue('hemicycle'); }
+      return;
+    }
+  }
+});
+document.addEventListener('input', e => { if (e.target.dataset.brouillon) brouillons[e.target.dataset.brouillon] = e.target.value; });
+document.addEventListener('toggle', e => {
+  if (e.target.matches?.('details.debats')) e.target.open ? debatsOuverts.add(e.target.dataset.id) : debatsOuverts.delete(e.target.dataset.id);
+}, true);
+
+function montrerVue(v) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('actif', b.dataset.vue === v));
+  document.querySelectorAll('.vue').forEach(s => s.classList.toggle('active', s.id === 'vue-' + v));
+}
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => montrerVue(b.dataset.vue));
+
+/* ---------- Toast / chargement ---------- */
+let tt;
+function toast(msg, err) { const t = $('#toast'); t.textContent = msg; t.classList.toggle('err', !!err); t.classList.add('vu'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('vu'), 3200); }
+function charge(on) { $('#charge').classList.toggle('vu', on); }
+
+/* =========================================================
+   Démarrage
+   ========================================================= */
+$('#bandeauDemo').hidden = !!API_URL;
+tic(); setInterval(tic, 1000);
+charger().then(() => { if (!moi) ouvrirQui(); });
+setInterval(() => {
+  const saisie = document.activeElement && ['TEXTAREA', 'INPUT', 'SELECT'].includes(document.activeElement.tagName);
+  if (!document.hidden && !saisie && !document.querySelector('.modale.ouverte') && !$('#promu').classList.contains('ouverte')) charger(true);
+}, RAFRAICHIR_SEC * 1000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) charger(true); });
+</script>
+</body>
+</html>
